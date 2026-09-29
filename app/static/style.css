@@ -1,0 +1,190 @@
+/* Reset e Tipografia base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+body {
+    background-color: #0b111a;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    display: flex;
+    max-width: 900px;
+    width: 100%;
+    padding: 2rem;
+    gap: 4rem;
+    align-items: center;
+}
+
+/* --- Lado Esquerdo --- */
+.left-section {
+    flex: 1;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 2rem;
+}
+
+.logo-icon {
+    font-size: 2.5rem;
+    color: #4b5ff7;
+}
+
+.logo h1 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #f1f5f9;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    color: #94a3b8;
+    line-height: 1.5;
+    margin-bottom: 3rem;
+}
+
+.mountain-graphic svg {
+    width: 180px;
+    height: auto;
+    opacity: 0.8;
+}
+
+/* --- Lado Direito (Cartão) --- */
+.right-section {
+    flex: 1;
+}
+
+.login-card {
+    background-color: #121826;
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    border: 1px solid #1e293b;
+}
+
+.login-card h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #f8fafc;
+}
+
+.login-subtitle {
+    color: #94a3b8;
+    margin-bottom: 2rem;
+    font-size: 0.95rem;
+}
+
+/* --- Inputs --- */
+.input-group {
+    position: relative;
+    margin-bottom: 1.2rem;
+}
+
+.input-group i {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #64748b;
+}
+
+.input-group .toggle-password {
+    left: auto;
+    right: 1rem;
+    cursor: pointer;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 0.9rem 2.5rem;
+    background-color: #0b111a;
+    border: 1px solid #1e293b;
+    border-radius: 8px;
+    color: #e2e8f0;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.input-group input:focus {
+    border-color: #4b5ff7;
+}
+
+/* --- Botão --- */
+.btn-login {
+    width: 100%;
+    padding: 0.9rem;
+    background-color: #5c6bf2;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: background-color 0.2s;
+}
+
+.btn-login:hover {
+    background-color: #4a58db;
+}
+
+/* --- Divisor e Links --- */
+.divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 1.5rem 0;
+    color: #475569;
+}
+
+.divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #1e293b;
+}
+
+.divider span {
+    padding: 0 10px;
+    font-size: 0.85rem;
+}
+
+.register-text {
+    text-align: center;
+    color: #94a3b8;
+    font-size: 0.9rem;
+}
+
+.register-text a {
+    color: #5c6bf2;
+    text-decoration: none;
+}
+
+.register-text a:hover {
+    text-decoration: underline;
+}
+
+/* --- Responsividade --- */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        gap: 2rem;
+    }
+    .left-section {
+        text-align: center;
+    }
+    .logo {
+        justify-content: center;
+    }
+}

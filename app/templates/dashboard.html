@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClearTask - Dashboard</title>
+    <!-- Importação do FontAwesome para os ícones -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Liga ao novo ficheiro CSS -->
+    <link rel="stylesheet" href="/static/dashboard.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Barra Lateral -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fa-solid fa-square-check logo-icon"></i>
+                <h2>ClearTask</h2>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active"><i class="fa-solid fa-house"></i> Início</a>
+                <a href="#" class="nav-item"><i class="fa-solid fa-list-check"></i> Minhas Tarefas</a>
+                <a href="#" class="nav-item"><i class="fa-solid fa-check-double"></i> Concluídas</a>
+                <a href="#" class="nav-item"><i class="fa-solid fa-gear"></i> Configurações</a>
+            </nav>
+
+            <div class="user-profile">
+                <div class="avatar"><i class="fa-regular fa-user"></i></div>
+                <div class="user-info">
+                    <span class="user-name">Diego</span>
+                    <a href="/" class="logout">Sair</a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Área de Conteúdo Principal -->
+        <main class="main-content">
+            <!-- Cabeçalho -->
+            <header class="top-header">
+                <div class="greeting">
+                    <h1>Olá, Diego 👋</h1>
+                    <p>Aqui está o resumo das suas tarefas.</p>
+                </div>
+                <div class="header-actions">
+                    <div class="search-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" placeholder="Buscar tarefas...">
+                    </div>
+                    <button class="btn-primary"><i class="fa-solid fa-plus"></i> Nova Tarefa</button>
+                </div>
+            </header>
+
+            <!-- Cartões de Resumo -->
+            <section class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon bg-blue"><i class="fa-solid fa-book"></i></div>
+                    <div class="stat-details">
+                        <p>Total de tarefas</p>
+                        <h3>5</h3>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon bg-orange"><i class="fa-solid fa-clock"></i></div>
+                    <div class="stat-details">
+                        <p>Pendentes</p>
+                        <h3>3</h3>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon bg-green"><i class="fa-solid fa-check-circle"></i></div>
+                    <div class="stat-details">
+                        <p>Concluídas</p>
+                        <h3>2</h3>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon bg-purple"><i class="fa-solid fa-font"></i></div>
+                    <div class="stat-details">
+                        <p>Alta prioridade</p>
+                        <h3>1</h3>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Secção de Tarefas -->
+            <section class="tasks-section">
+                <div class="tasks-header">
+                    <h2>Minhas Tarefas</h2>
+                    <div class="task-tabs">
+                        <button class="tab active">Todas</button>
+                        <button class="tab">Pendentes</button>
+                        <button class="tab">Concluídas</button>
+                    </div>
+                </div>
+                
+                <div class="table-responsive">
+                    <table class="tasks-table">
+                        <thead>
+                            <tr>
+                                <th>Título</th>
+                                <th>Descrição</th>
+                                <th>Prioridade</th>
+                                <th>Status</th>
+                                <th>Data</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Linha 1 -->
+                            <tr>
+                                <td>Estudar Python</td>
+                                <td>Revisar POO e funções</td>
+                                <td><span class="badge priority-high">Alta</span></td>
+                                <td><span class="badge status-pending">Pendente</span></td>
+                                <td>25/09/2026</td>
+                                <td class="actions">
+                                    <button class="btn-icon"><i class="fa-solid fa-pen"></i></button>
+                                    <button class="btn-icon delete"><i class="fa-solid fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <!-- Linha 2 -->
+                            <tr>
+                                <td>Construir API</td>
+                                <td>Finalizar rotas do backend</td>
+                                <td><span class="badge priority-medium">Média</span></td>
+                                <td><span class="badge status-pending">Pendente</span></td>
+                                <td>26/09/2026</td>
+                                <td class="actions">
+                                    <button class="btn-icon"><i class="fa-solid fa-pen"></i></button>
+                                    <button class="btn-icon delete"><i class="fa-solid fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <!-- Linha 3 -->
+                            <tr>
+                                <td>Assistir série</td>
+                                <td>Attack on Titan</td>
+                                <td><span class="badge priority-low">Baixa</span></td>
+                                <td><span class="badge status-pending">Pendente</span></td>
+                                <td>27/09/2026</td>
+                                <td class="actions">
+                                    <button class="btn-icon"><i class="fa-solid fa-pen"></i></button>
+                                    <button class="btn-icon delete"><i class="fa-solid fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <!-- Linha 4 -->
+                            <tr>
+                                <td>Treinar</td>
+                                <td>Corrida + TAF</td>
+                                <td><span class="badge priority-high">Alta</span></td>
+                                <td><span class="badge status-completed">Concluída</span></td>
+                                <td>24/09/2026</td>
+                                <td class="actions">
+                                    <button class="btn-icon"><i class="fa-solid fa-pen"></i></button>
+                                    <button class="btn-icon delete"><i class="fa-solid fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <!-- Linha 5 -->
+                            <tr>
+                                <td>Ler livro</td>
+                                <td>Hábitos Atómicos</td>
+                                <td><span class="badge priority-medium">Média</span></td>
+                                <td><span class="badge status-completed">Concluída</span></td>
+                                <td>23/09/2026</td>
+                                <td class="actions">
+                                    <button class="btn-icon"><i class="fa-solid fa-pen"></i></button>
+                                    <button class="btn-icon delete"><i class="fa-solid fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

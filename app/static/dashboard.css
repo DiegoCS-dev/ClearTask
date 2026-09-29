@@ -1,0 +1,337 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', -apple-system, sans-serif;
+}
+
+body {
+    background-color: #0b111a; /* Fundo escuro principal */
+    color: #f1f5f9;
+}
+
+.dashboard-container {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* --- Barra Lateral (Sidebar) --- */
+.sidebar {
+    width: 260px;
+    background-color: #0b111a;
+    border-right: 1px solid #1e293b;
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 3rem;
+}
+
+.logo-icon {
+    font-size: 1.8rem;
+    color: #4b5ff7;
+}
+
+.logo h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.nav-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex-grow: 1;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.9rem 1.2rem;
+    color: #94a3b8;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+}
+
+.nav-item:hover {
+    background-color: #121826;
+    color: #f1f5f9;
+}
+
+.nav-item.active {
+    background-color: #1e2548;
+    color: #f1f5f9;
+    border: 1px solid #2a3465;
+}
+
+.nav-item.active i {
+    color: #4b5ff7;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #1e293b;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #1e293b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #94a3b8;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.logout {
+    color: #ef4444;
+    font-size: 0.85rem;
+    text-decoration: none;
+    margin-top: 2px;
+}
+
+/* --- Conteúdo Principal --- */
+.main-content {
+    flex-grow: 1;
+    padding: 2.5rem;
+    overflow-y: auto;
+    background-color: #0b111a;
+}
+
+/* Cabeçalho */
+.top-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+}
+
+.greeting h1 {
+    font-size: 1.8rem;
+    margin-bottom: 0.4rem;
+}
+
+.greeting p {
+    color: #94a3b8;
+    font-size: 0.95rem;
+}
+
+.header-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.search-box {
+    position: relative;
+}
+
+.search-box i {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #64748b;
+}
+
+.search-box input {
+    background-color: #121826;
+    border: 1px solid #1e293b;
+    padding: 0.7rem 1rem 0.7rem 2.5rem;
+    border-radius: 8px;
+    color: white;
+    outline: none;
+    width: 250px;
+}
+
+.btn-primary {
+    background-color: #5c6bf2;
+    color: white;
+    border: none;
+    padding: 0.7rem 1.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Cartões de Estatísticas */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+}
+
+.stat-card {
+    background-color: #121826;
+    border: 1px solid #1e293b;
+    padding: 1.2rem;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.stat-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+}
+
+.bg-blue { background-color: rgba(75, 95, 247, 0.15); color: #4b5ff7; }
+.bg-orange { background-color: rgba(245, 158, 11, 0.15); color: #f59e0b; }
+.bg-green { background-color: rgba(16, 185, 129, 0.15); color: #10b981; }
+.bg-purple { background-color: rgba(168, 85, 247, 0.15); color: #a855f7; }
+
+.stat-details p {
+    color: #94a3b8;
+    font-size: 0.85rem;
+    margin-bottom: 0.3rem;
+}
+
+.stat-details h3 {
+    font-size: 1.4rem;
+}
+
+/* Tabela de Tarefas */
+.tasks-section {
+    background-color: #121826;
+    border: 1px solid #1e293b;
+    border-radius: 12px;
+    padding: 1.5rem;
+}
+
+.tasks-header {
+    margin-bottom: 1.5rem;
+}
+
+.tasks-header h2 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.task-tabs {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.tab {
+    background: none;
+    border: none;
+    color: #94a3b8;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-radius: 20px;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.tab.active {
+    background-color: #4b5ff7;
+    color: white;
+}
+
+.tasks-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tasks-table th, .tasks-table td {
+    text-align: left;
+    padding: 1.2rem 1rem;
+    border-bottom: 1px solid #1e293b;
+}
+
+.tasks-table th {
+    color: #94a3b8;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.tasks-table td {
+    font-size: 0.95rem;
+    color: #e2e8f0;
+}
+
+.tasks-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* Badges (Selos) de Status/Prioridade */
+.badge {
+    padding: 0.3rem 0.8rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.priority-high { color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.5); }
+.priority-medium { color: #4b5ff7; border: 1px solid rgba(75, 95, 247, 0.5); }
+.priority-low { color: #10b981; border: 1px solid rgba(16, 185, 129, 0.5); }
+
+.status-pending { color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.5); }
+.status-completed { color: #10b981; border: 1px solid rgba(16, 185, 129, 0.5); }
+
+/* Botões de Ação na Tabela */
+.actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.btn-icon {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid #2a3441;
+    color: #94a3b8;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-icon:hover {
+    color: #f1f5f9;
+    background-color: #1e293b;
+}
+
+.btn-icon.delete {
+    color: #ef4444;
+}
+
+.btn-icon.delete:hover {
+    background-color: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.3);
+}
