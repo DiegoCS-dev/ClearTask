@@ -14,7 +14,11 @@ body {
     align-items: center;
     min-height: 100vh;
 }
-
+.error {
+    color: #ef4444;
+    font-size: 14px;
+    margin: 10px 0;
+}
 .container {
     display: flex;
     max-width: 900px;

@@ -32,15 +32,26 @@
                 <h2>Crie sua conta</h2>
                 <p class="login-subtitle">É rápido e fácil!</p>
 
-                <form action="/register" method="POST">
+                <form action="/create_user" method="POST">
                     <div class="input-group">
                         <i class="fa-regular fa-user"></i>
-                        <input type="text" name="username" placeholder="Nome de usuário" required>
+                        <input
+    type="text"
+    name="name"
+    placeholder="Nome de usuário"
+    value="{{ name or '' }}"
+    required>
                     </div>
 
                     <div class="input-group">
                         <i class="fa-regular fa-envelope"></i>
-                        <input type="email" name="email" placeholder="E-mail" required>
+                        <input
+    type="email"
+    name="email"
+    placeholder="E-mail"
+    value="{{ email or '' }}"
+    required
+>
                     </div>
 
                     <div class="input-group">
@@ -54,14 +65,16 @@
                         <input type="password" name="confirm_password" placeholder="Confirmar senha" required>
                         <i class="fa-regular fa-eye toggle-password"></i>
                     </div>
-
+                    {% if error %}
+                        <p class="error">{{ error }}</p>
+                    {% endif %}
                     <button type="submit" class="btn-login">Cadastrar</button>
                 </form>
 
                 <!-- Espaçamento extra em vez do divisor "ou" que havia no login -->
                 <div style="margin-top: 1.5rem;"></div>
 
-                <p class="register-text">Já tem uma conta? <a href="/">Faça login</a></p>
+                <p class="register-text">Já tem uma conta? <a href="/login">Faça login</a></p>
             </div>
         </div>
     </div>

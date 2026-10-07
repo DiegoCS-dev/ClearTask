@@ -8,8 +8,7 @@ def create_task(body, user_id):
     conexao.commit()
     conexao.close()
 
-
-def view_all_task(user_id):
+async def view_all_task(user_id):
     conexao = get_connection()
     conexao.row_factory = sqlite3.Row
     cursor = conexao.cursor()

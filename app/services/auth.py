@@ -48,7 +48,7 @@ def me(user_id):
     conexao = get_connection()
     conexao.row_factory = sqlite3.Row
     cursor = conexao.cursor()
-    cursor.execute("SELECT id,name,email FROM usuarios WHERE id = ?", (user_id,))
+    cursor.execute("SELECT id, name, email FROM usuarios WHERE id = ?", (user_id,))
     dados = cursor.fetchone()
     conexao.close()
-    return dict(dados)
+    return dict(dados) if dados else {}

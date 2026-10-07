@@ -35,7 +35,7 @@
                 <form action="/login" method="POST">
                     <div class="input-group">
                         <i class="fa-regular fa-user"></i>
-                        <input type="text" name="username" placeholder="E-mail ou usuário" required>
+                        <input type="text" name="email" placeholder="E-mail ou usuário" required>
                     </div>
 
                     <div class="input-group">
@@ -43,7 +43,9 @@
                         <input type="password" name="password" placeholder="Senha" required>
                         <i class="fa-regular fa-eye toggle-password"></i>
                     </div>
-
+                    {% if error %}
+                        <p class="error">{{ error }}</p>
+                    {% endif %}
                     <button type="submit" class="btn-login">Entrar</button>
                 </form>
 

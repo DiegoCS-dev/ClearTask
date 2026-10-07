@@ -6,8 +6,8 @@
     <title>ClearTask - Dashboard</title>
     <!-- Importação do FontAwesome para os ícones -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <!-- Liga ao novo ficheiro CSS -->
-    <link rel="stylesheet" href="/static/dashboard.css">
+    <!-- Liga ao ficheiro CSS -->
+    <link rel="stylesheet" href="/static/dashboard.css?v=1.2">
 </head>
 <body>
     <div class="dashboard-container">
@@ -26,10 +26,17 @@
             </nav>
 
             <div class="user-profile">
-                <div class="avatar"><i class="fa-regular fa-user"></i></div>
+                <!-- Input escondido para escolher a foto -->
+                <input type="file" id="avatarInput" accept="image/*" style="display: none;">
+                
+                <!-- A div do avatar agora é clicável -->
+                <div class="avatar" id="avatarDiv" style="cursor: pointer; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+                    <i class="fa-regular fa-user"></i>
+                </div>
+                
                 <div class="user-info">
-                    <span class="user-name">Diego</span>
-                    <a href="/" class="logout">Sair</a>
+                    <span class="user-name">{{user.name}}</span>
+                    <a href="/login" class="logout">Sair</a>
                 </div>
             </div>
         </aside>
@@ -39,7 +46,7 @@
             <!-- Cabeçalho -->
             <header class="top-header">
                 <div class="greeting">
-                    <h1>Olá, Diego 👋</h1>
+                    <h1>Olá, {{user.name}} 👋</h1>
                     <p>Aqui está o resumo das suas tarefas.</p>
                 </div>
                 <div class="header-actions">
@@ -47,7 +54,9 @@
                         <i class="fa-solid fa-magnifying-glass"></i>
                         <input type="text" placeholder="Buscar tarefas...">
                     </div>
-                    <button class="btn-primary"><i class="fa-solid fa-plus"></i> Nova Tarefa</button>
+                    <button class="btn-primary" onclick="openModal('Nova Tarefa')">
+                        <i class="fa-solid fa-plus"></i> Nova Tarefa
+                    </button>
                 </div>
             </header>
 
@@ -57,28 +66,28 @@
                     <div class="stat-icon bg-blue"><i class="fa-solid fa-book"></i></div>
                     <div class="stat-details">
                         <p>Total de tarefas</p>
-                        <h3>5</h3>
+                        <h3>{{stats.total_tasks}}</h3>
                     </div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-icon bg-orange"><i class="fa-solid fa-clock"></i></div>
                     <div class="stat-details">
                         <p>Pendentes</p>
-                        <h3>3</h3>
+                        <h3>{{stats.pending_tasks}}</h3>
                     </div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-icon bg-green"><i class="fa-solid fa-check-circle"></i></div>
                     <div class="stat-details">
                         <p>Concluídas</p>
-                        <h3>2</h3>
+                        <h3>{{stats.completed_tasks}}</h3>
                     </div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-icon bg-purple"><i class="fa-solid fa-font"></i></div>
                     <div class="stat-details">
                         <p>Alta prioridade</p>
-                        <h3>1</h3>
+                        <h3>{{stats.high_priority_tasks}}</h3>
                     </div>
                 </div>
             </section>
@@ -102,76 +111,373 @@
                                 <th>Descrição</th>
                                 <th>Prioridade</th>
                                 <th>Status</th>
-                                <th>Data</th>
+                                <th>Data de Vencimento</th>
                                 <th>Ações</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- Linha 1 -->
+                            {% for task in tasks %}
                             <tr>
-                                <td>Estudar Python</td>
-                                <td>Revisar POO e funções</td>
-                                <td><span class="badge priority-high">Alta</span></td>
-                                <td><span class="badge status-pending">Pendente</span></td>
-                                <td>25/09/2026</td>
+                                <td>{{task.title}}</td>
+                                <td>{{task.description or ''}}</td>
+                                <td>
+                                    {% if task.priority == 'high' %}
+                                        <span class="badge priority-high">Alta</span>
+                                    {% elif task.priority == 'medium' %}
+                                        <span class="badge priority-medium">Média</span>
+                                    {% else %}
+                                        <span class="badge priority-low">Baixa</span>
+                                    {% endif %}
+                                </td>
+
+                                <td>
+                                    {% if task.status == 'completed' %}
+                                        <span class="badge status-completed">Concluída</span>
+                                    {% elif task.status == 'pending' %}
+                                        <span class="badge status-pending">Pendente</span>
+                                    {% else %}
+                                        <span class="badge status-in-progress">Em Progresso</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{task.due_date or ''}}</td>
                                 <td class="actions">
-                                    <button class="btn-icon"><i class="fa-solid fa-pen"></i></button>
-                                    <button class="btn-icon delete"><i class="fa-solid fa-trash"></i></button>
+                                    <!-- Botão de Editar preenchendo os dados do Modal -->
+                                    <button class="btn-icon" onclick="openEditModal('{{ task.id }}', '{{ task.title }}', '{{ task.description or '' }}', '{{ task.priority }}', '{{ task.status }}', '{{ task.due_date or '' }}')">
+                                        <i class="fa-solid fa-pen"></i>
+                                    </button>
+                                    <button class="btn-icon delete" onclick="deleteTask('{{ task.id }}')">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
                                 </td>
                             </tr>
-                            <!-- Linha 2 -->
-                            <tr>
-                                <td>Construir API</td>
-                                <td>Finalizar rotas do backend</td>
-                                <td><span class="badge priority-medium">Média</span></td>
-                                <td><span class="badge status-pending">Pendente</span></td>
-                                <td>26/09/2026</td>
-                                <td class="actions">
-                                    <button class="btn-icon"><i class="fa-solid fa-pen"></i></button>
-                                    <button class="btn-icon delete"><i class="fa-solid fa-trash"></i></button>
-                                </td>
-                            </tr>
-                            <!-- Linha 3 -->
-                            <tr>
-                                <td>Assistir série</td>
-                                <td>Attack on Titan</td>
-                                <td><span class="badge priority-low">Baixa</span></td>
-                                <td><span class="badge status-pending">Pendente</span></td>
-                                <td>27/09/2026</td>
-                                <td class="actions">
-                                    <button class="btn-icon"><i class="fa-solid fa-pen"></i></button>
-                                    <button class="btn-icon delete"><i class="fa-solid fa-trash"></i></button>
-                                </td>
-                            </tr>
-                            <!-- Linha 4 -->
-                            <tr>
-                                <td>Treinar</td>
-                                <td>Corrida + TAF</td>
-                                <td><span class="badge priority-high">Alta</span></td>
-                                <td><span class="badge status-completed">Concluída</span></td>
-                                <td>24/09/2026</td>
-                                <td class="actions">
-                                    <button class="btn-icon"><i class="fa-solid fa-pen"></i></button>
-                                    <button class="btn-icon delete"><i class="fa-solid fa-trash"></i></button>
-                                </td>
-                            </tr>
-                            <!-- Linha 5 -->
-                            <tr>
-                                <td>Ler livro</td>
-                                <td>Hábitos Atómicos</td>
-                                <td><span class="badge priority-medium">Média</span></td>
-                                <td><span class="badge status-completed">Concluída</span></td>
-                                <td>23/09/2026</td>
-                                <td class="actions">
-                                    <button class="btn-icon"><i class="fa-solid fa-pen"></i></button>
-                                    <button class="btn-icon delete"><i class="fa-solid fa-trash"></i></button>
-                                </td>
-                            </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>
             </section>
         </main>
     </div>
+
+    <!-- Modal / Pop-up Reestruturado -->
+    <div id="taskModal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h2 id="modalTitle">Nova Tarefa</h2>
+                <button type="button" class="btn-close" onclick="closeModal()">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <form id="taskForm">
+                <!-- Campo Oculto para o ID da Tarefa -->
+                <input type="hidden" id="taskId" name="id" value="">
+
+                <!-- Título -->
+                <div class="form-group">
+                    <label for="title">Título <span class="required">*</span></label>
+                    <input type="text" id="title" name="title" placeholder="Ex: Estudar Python" required>
+                </div>
+
+                <!-- Descrição -->
+                <div class="form-group">
+                    <label for="description">Descrição</label>
+                    <textarea id="description" name="description" rows="3" placeholder="Ex: Revisar POO e funções..."></textarea>
+                </div>
+
+                <!-- Prioridade e Status -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="priority">Prioridade</label>
+                        <select id="priority" name="priority">
+                            <option value="low">Baixa</option>
+                            <option value="medium" selected>Média</option>
+                            <option value="high">Alta</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <select id="status" name="status">
+                            <option value="pending" selected>Pendente</option>
+                            <option value="completed">Concluída</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Data de Vencimento -->
+                <div class="form-group">
+                    <label for="due_date">Data de vencimento</label>
+                    <input type="date" id="due_date" name="due_date">
+                </div>
+
+                <!-- Botões de Ação -->
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancel" onclick="closeModal()">Cancelar</button>
+                    <button type="submit" class="btn-save">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts de Controle -->
+    <script>
+        function openModal(title = "Nova Tarefa") {
+            document.getElementById("modalTitle").innerText = title;
+            document.getElementById("taskId").value = "";
+            
+            // Limpa os campos do formulário
+            document.getElementById("title").value = "";
+            document.getElementById("description").value = "";
+            document.getElementById("priority").value = "medium";
+            document.getElementById("status").value = "pending";
+            document.getElementById("due_date").value = "";
+
+            document.getElementById("taskModal").classList.add("active");
+        }
+
+        function openEditModal(id, title, description, priority, status, dueDate) {
+            document.getElementById("modalTitle").innerText = "Editar Tarefa";
+            
+            // Preenche os campos com a tarefa existente
+            document.getElementById("taskId").value = parseInt(id);
+            document.getElementById("title").value = title;
+            document.getElementById("description").value = description;
+            document.getElementById("priority").value = priority;
+            document.getElementById("status").value = status;
+            document.getElementById("due_date").value = dueDate;
+
+            document.getElementById("taskModal").classList.add("active");
+        }
+
+        function closeModal() {
+            document.getElementById("taskModal").classList.remove("active");
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById("taskModal");
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+        // Função auxiliar para requisições tratadas
+        async function apiFetch(url, options = {}) {
+            try {
+                const response = await fetch(url, options);
+
+                // Trata sessão expirada em qualquer requisição
+                if (response.status === 401) {
+                    alert("A sua sessão expirou. Por favor, faça login novamente.");
+                    window.location.href = "/login";
+                    return null;
+                }
+
+                return response;
+            } catch (error) {
+                console.error("Erro na requisição:", error);
+                alert("Ocorreu um erro ao conectar com o servidor.");
+                return null;
+            }
+        }
+        // Submissão do Formulário enviando JSON via Fetch (suporta POST e PUT)
+        document.getElementById("taskForm").addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            const taskId = document.getElementById("taskId").value;
+            const isEdit = Boolean(taskId);
+
+            const url = isEdit ? `/task/${taskId}` : '/task';
+            const method = isEdit ? 'PUT' : 'POST';
+
+            const payload = {
+                title: document.getElementById("title").value,
+                description: document.getElementById("description").value || null,
+                priority: document.getElementById("priority").value,
+                status: document.getElementById("status").value,
+                due_date: document.getElementById("due_date").value || null
+            };
+
+            try {
+            const response = await apiFetch(url, {
+                method: method,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response) return; // Parou no 401 ou erro de rede
+
+            if (response.ok) {
+                closeModal();
+                window.location.reload();
+            } else {
+                const errorData = await response.json().catch(() => ({}));
+                alert(`Erro ao salvar tarefa: ${errorData.detail || response.statusText}`);
+            }
+            } catch (error) {
+                console.error("Erro na requisição:", error);
+                alert("Ocorreu um erro ao ligar ao servidor.");
+            }
+        });
+        async function deleteTask(taskId) {
+            if (!confirm("Tem certeza que deseja excluir esta tarefa?")) {
+                return; // Cancela a execução se o usuário clicar em "Cancelar"
+            }
+
+            try {
+                // Certifique-se de ajustar a rota (/task/ ou /tasks/) de acordo com seu backend
+                const response = await fetch(`/task/${taskId}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok) {
+                    window.location.reload(); // Recarrega a página para remover a linha
+                } else {
+                    const errorData = await response.json().catch(() => ({}));
+                    alert(`Erro ao excluir: ${errorData.detail || response.statusText}`);
+                }
+            } catch (error) {
+                console.error("Erro na requisição de exclusão:", error);
+                alert("Ocorreu um erro ao conectar com o servidor.");
+            }
+}
+// ==========================================
+        // FILTRO DE TAREFAS POR ABAS
+        // ==========================================
+        document.querySelectorAll('.tab').forEach(button => {
+            button.addEventListener('click', () => {
+                // 1. Remove a classe 'active' de todos os botões e adiciona apenas no que foi clicado
+                document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+                button.classList.add('active');
+
+                // 2. Descobre qual é o filtro selecionado (todas, pendentes, concluídas)
+                const filter = button.innerText.trim().toLowerCase();
+
+                // 3. Pega todas as linhas da tabela
+                const rows = document.querySelectorAll('.tasks-table tbody tr');
+
+                // 4. Percorre as linhas mostrando ou escondendo
+                rows.forEach(row => {
+                    // O Status está na 4ª coluna da tabela (índice 3)
+                    const statusCell = row.children[3];
+                    if (!statusCell) return; // Prevenção de erro
+                    
+                    const statusText = statusCell.innerText.trim().toLowerCase();
+
+                    // Lógica para mostrar/esconder a linha (display = '' ou display = 'none')
+                    if (filter === 'todas') {
+                        row.style.display = '';
+                    } else if (filter === 'pendentes' && statusText.includes('pendente')) {
+                        row.style.display = '';
+                    } else if (filter === 'concluídas' && statusText.includes('concluída')) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none'; // Esconde a linha que não bate com o filtro
+                    }
+                });
+            });
+        });
+        // ==========================================
+        // FILTRO COMBINADO: ABAS + BARRA DE BUSCA
+        // ==========================================
+        const searchInput = document.querySelector('.search-box input');
+        const tabButtons = document.querySelectorAll('.tab');
+        const tableRows = document.querySelectorAll('.tasks-table tbody tr');
+
+        // Função que aplica os dois filtros simultaneamente
+        function filterTasks() {
+            // 1. Pega qual é a aba ativa no momento
+            const activeTab = document.querySelector('.tab.active').innerText.trim().toLowerCase();
+            
+            // 2. Pega o texto digitado na busca
+            const searchQuery = searchInput.value.toLowerCase().trim();
+
+            // 3. Percorre todas as linhas da tabela
+            tableRows.forEach(row => {
+                const title = row.children[0].innerText.toLowerCase();
+                const description = row.children[1].innerText.toLowerCase();
+                const statusCell = row.children[3];
+                
+                if (!statusCell) return;
+                
+                const statusText = statusCell.innerText.trim().toLowerCase();
+
+                // Regra 1: Passa no filtro da Aba?
+                let matchesTab = false;
+                if (activeTab === 'todas') {
+                    matchesTab = true;
+                } else if (activeTab === 'pendentes' && statusText.includes('pendente')) {
+                    matchesTab = true;
+                } else if (activeTab === 'concluídas' && statusText.includes('concluída')) {
+                    matchesTab = true;
+                }
+
+                // Regra 2: Passa no filtro da Busca? (Procura no título ou na descrição)
+                let matchesSearch = false;
+                if (title.includes(searchQuery) || description.includes(searchQuery)) {
+                    matchesSearch = true;
+                }
+
+                // Só mostra a linha se passar nas DUAS regras
+                if (matchesTab && matchesSearch) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        // Evento 1: Quando o usuário digita na barra de pesquisa
+        searchInput.addEventListener('input', filterTasks);
+
+        // Evento 2: Quando o usuário clica numa aba
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove a classe active de todos e bota no clicado
+                tabButtons.forEach(b => b.classList.remove('active'));
+                button.classList.add('active');
+                
+                // Roda o filtro novamente
+                filterTasks();
+            });
+        });
+        // ==========================================
+        // UPLOAD DE FOTO DE PERFIL
+        // ==========================================
+        const avatarDiv = document.getElementById('avatarDiv');
+        const avatarInput = document.getElementById('avatarInput');
+
+        // 1. Quando clicar no avatar, abre a janela do Windows para escolher o arquivo
+        avatarDiv.addEventListener('click', () => {
+            avatarInput.click();
+        });
+
+        // 2. Quando o usuário selecionar uma foto
+        avatarInput.addEventListener('change', async function() {
+            const file = this.files[0];
+            if (!file) return;
+
+            // Prepara o arquivo para envio
+            const formData = new FormData();
+            formData.append('file', file);
+
+            try {
+                // Envia para a rota do FastAPI
+                const response = await fetch('/upload_avatar', {
+                    method: 'POST',
+                    body: formData // Não precisa de 'Content-Type', o navegador define sozinho para FormData
+                });
+
+                if (response.ok) {
+                    // Se deu certo, recarrega a página para exibir a foto nova
+                    window.location.reload();
+                } else {
+                    const errorData = await response.json().catch(() => ({}));
+                    alert(`Erro ao salvar foto: ${errorData.detail || 'Tente novamente.'}`);
+                }
+            } catch (error) {
+                console.error("Erro no upload:", error);
+                alert("Erro ao tentar enviar a foto.");
+            }
+        });
+    </script>
 </body>
 </html>
