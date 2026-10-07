@@ -78,7 +78,7 @@ Passo a Passo
 Clonar o repositório:
 
 Bash
-git clone [https://github.com/seu-usuario/cleartask.git](https://github.com/seu-usuario/cleartask.git)
+git clone (https://github.com/DiegoCS-dev/ClearTask)
 cd cleartask
 Criar e ativar o ambiente virtual (venv):
 
